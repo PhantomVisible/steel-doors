@@ -1,0 +1,25 @@
+<section class="contact" id="contact" #contactSection>
+  <div class="container">
+    <div class="contact__wrapper" data-animate>
+      <div class="contact__info">
+        <h2 class="contact__title">Ready to Elevate Your Space?</h2>
+        <p class="contact__text">
+          Reach out to Kamal Steel Doors for a consultation. Our Moroccan craftsmanship and modern engineering are at your service.
+        </p>
+      </div>
+
+      <form class="contact__form" (submit)="$event.preventDefault()">
+        <div class="form-group">
+          <input type="text" id="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" placeholder="Email Address" required>
+        </div>
+        <div class="form-group">
+          <textarea id="message" rows="4" placeholder="How can we help you?" required></textarea>
+        </div>
+        <button type="submit" class="contact__btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>

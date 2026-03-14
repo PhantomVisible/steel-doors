@@ -1,0 +1,147 @@
+/* ============================================
+   ANTIGRAVITY — Global Styles
+   Kamal Steel Doors · Fez, Morocco
+   ============================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* Primary palette */
+  --white: #fdfdff;
+  --white-pure: #ffffff;
+  --off-white: #f4f6fb;
+  --blue-100: #e8eaff;
+  --blue-200: #c5c7ff;
+  --blue-300: #8b8eff;
+  --blue-500: #4043f5;
+  --blue-600: #3336d4;
+  --blue-700: #2628a8;
+  --blue-900: #141570;
+
+  /* Neutrals */
+  --steel-grey: #5a6575;
+  --grey-200: #e2e6ed;
+  --grey-300: #c8cdd8;
+  --grey-400: #9ba3b3;
+  --grey-800: #2a3040;
+  --black: #0e1117;
+
+  /* Typography */
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vw, 8rem);
+  --container-max: 1280px;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  color: var(--grey-800);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--blue-900);
+}
+
+a {
+  color: var(--blue-500);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-smooth);
+}
+a:hover {
+  color: var(--blue-700);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-primary);
+}
+
+/* ---------- Utilities ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--blue-900);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--steel-grey);
+  font-weight: 300;
+  max-width: 600px;
+}
+
+/* Floating entrance — initial state for [data-animate] elements */
+[data-animate], [data-animate-hero] {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--off-white);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blue-200);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-500);
+}
+
+/* Selection */
+::selection {
+  background: var(--blue-100);
+  color: var(--blue-900);
+}

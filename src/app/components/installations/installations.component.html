@@ -1,0 +1,46 @@
+<section class="installations" id="installations" #installSection>
+  <div class="container">
+    <div class="installations__header" data-animate>
+      <h2 class="section-title">Our Installations</h2>
+      <p class="section-subtitle">Every door tells a story of precision, security, and timeless design.</p>
+    </div>
+
+    <div class="installations__grid">
+      <div
+        *ngFor="let cat of categories; let i = index"
+        class="installations__card"
+        [attr.data-depth]="cat.depth"
+        data-animate
+        (click)="openLightbox(cat)"
+      >
+        <div class="installations__card-inner">
+          <img
+            [src]="cat.coverImage"
+            [alt]="cat.title"
+            class="installations__card-image"
+            loading="lazy"
+          >
+          <div class="installations__card-overlay">
+            <span class="installations__card-title">{{ cat.title }} ({{ cat.images.length }})</span>
+            <span class="installations__card-icon">↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" *ngIf="lightboxOpen" (click)="closeLightbox()">
+    <button class="lightbox__close" (click)="closeLightbox()">✕</button>
+    
+    <div class="lightbox__nav lightbox__nav--prev" *ngIf="activeCategory && activeCategory.images.length > 1" (click)="prevImage($event)">❮</div>
+    
+    <img *ngIf="activeCategory" [src]="activeCategory.images[activeImageIndex]" alt="Installation detail" class="lightbox__image" (click)="$event.stopPropagation()">
+    
+    <div class="lightbox__nav lightbox__nav--next" *ngIf="activeCategory && activeCategory.images.length > 1" (click)="nextImage($event)">❯</div>
+    
+    <div *ngIf="activeCategory && activeCategory.images.length > 1" class="lightbox__counter" (click)="$event.stopPropagation()">
+      {{ activeImageIndex + 1 }} / {{ activeCategory.images.length }}
+    </div>
+  </div>
+</section>
