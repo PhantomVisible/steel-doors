@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 @Injectable({ providedIn: 'root' })
 export class AboutSceneService {
@@ -22,9 +23,9 @@ export class AboutSceneService {
     // Camera
     const aspect = container.clientWidth / container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
-    // Position camera to see the full door and its separated layers
-    this.camera.position.set(-2, 0, 4);
-    this.camera.lookAt(0, 0, 0);
+    // Position camera to see the full door, shifted slightly right to put model on the left
+    this.camera.position.set(2.5, 0, 5);
+    this.camera.lookAt(2.5, 0, 0);
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -55,6 +56,8 @@ export class AboutSceneService {
       this.onResize(container);
     });
     this.resizeObserver.observe(container);
+
+    // Orbit Controls removed per user request for custom dragging
   }
 
   startLoop(onFrame: (elapsed: number, delta: number) => void): void {

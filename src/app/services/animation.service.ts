@@ -95,12 +95,19 @@ export class AnimationService {
     });
 
     // Animate everything to Z = 0
-    tl.to(parts.backPanel.position, { z: 0, ease: 'sine.inOut' }, 0);
-    tl.to(parts.insulation.position, { z: 0, ease: 'sine.inOut' }, 0);
-    tl.to(parts.skeleton.position, { z: 0, ease: 'sine.inOut' }, 0);
-    tl.to(parts.frontPanel.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.layer1_backWood.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.layer2_backFoam.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.layer3_skeleton.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.layer4_frontFoam.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.layer5_frontWood.position, { z: 0, ease: 'sine.inOut' }, 0);
     
-    // Also gently rotate the door group back to flat/straight a bit, maybe to 15 degrees instead of 45
+    // Fade out labels
+    const labelsContainer = document.querySelector('.about__labels');
+    if (labelsContainer) {
+      tl.to(labelsContainer, { opacity: 0, ease: 'power1.inOut' }, 0);
+    }
+
+    // Also gently rotate the door group back to flat/straight a bit
     tl.to(parts.group.rotation, { y: Math.PI / 8, ease: 'sine.inOut' }, 0);
     
     // And float it slightly Y
@@ -206,6 +213,36 @@ export class AnimationService {
       duration: 0.35,
       ease: 'power2.in',
       onComplete,
+    });
+  }
+
+  /** Animate a 3D object's position property springing back to a target */
+  animateSpringBack(object: THREE.Object3D, targetZ: number): void {
+    if (!this.gsap) return;
+    this.gsap.to(object.position, {
+      z: targetZ,
+      duration: 1.0,
+      ease: 'elastic.out(1, 0.4)'
+    });
+  }
+
+  /** Animate a 3D object swiping completely away */
+  animateSwipeAway(object: THREE.Object3D, originalZ: number, dir: number): void {
+    if (!this.gsap) return;
+    this.gsap.to(object.position, {
+      z: originalZ + dir * 5.0, // Move significantly far out
+      duration: 0.6,
+      ease: 'power2.inOut'
+    });
+  }
+
+  /** Reset object back to its start position with a clean elastic pop */
+  animateReset(object: THREE.Object3D, targetZ: number): void {
+    if (!this.gsap) return;
+    this.gsap.to(object.position, {
+      z: targetZ,
+      duration: 1.0,
+      ease: 'elastic.out(1, 0.4)'
     });
   }
 
