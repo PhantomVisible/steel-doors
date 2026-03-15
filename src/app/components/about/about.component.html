@@ -1,46 +1,56 @@
 <section class="about" id="about" #aboutSection>
   <div class="container">
     <div class="about__grid">
-      <!-- Left side: Illustration / Visual -->
       <div class="about__visual" data-animate>
         <div class="about__circle-bg"></div>
-        <div class="about__accent-box">
-          <span class="about__accent-number">8+</span>
-          <span class="about__accent-text">Years of Excellence</span>
+        
+        <!-- The interactive 3D Exploded Door Canvas -->
+        <div class="about__canvas-container" #canvasContainer>
+          <canvas #aboutCanvas class="about__canvas"></canvas>
         </div>
-        <img src="assets/ekonomik-celik-kapi-modelleri-5929996706.png" alt="Steel Door Detail" class="about__img">
+
+        <div class="about__certification-badge">
+          <svg viewBox="0 0 100 100" class="about__certification-svg">
+            <path id="circle-path" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent" />
+            <text class="about__certification-text">
+              <textPath href="#circle-path" startOffset="0%">
+                KAMAL STEEL DOORS • 8+ YEARS OF EXCELLENCE •
+              </textPath>
+            </text>
+          </svg>
+          <div class="about__certification-center">
+            <span>8+</span>
+          </div>
+        </div>
       </div>
 
       <!-- Right side: Text -->
       <div class="about__content">
-        <h2 class="section-title" data-animate>Uncompromising Security. Elevating Design.</h2>
+        <h2 class="section-title" data-animate>Sécurité sans compromis. Design d'exception.</h2>
         <p class="section-subtitle" data-animate>
-          At <strong>Kamal Steel Doors</strong> in Fez, we fuse advanced security engineering with timeless Moroccan craftsmanship. Our doors aren't just barriers; they are a statement of elegance and peace of mind.
+          Chez <strong>Kamal Steel Doors</strong> À Fès, nous allions l'ingénierie de sécurité de pointe au savoir-faire artisanal Turc. Nos portes ne sont pas de simples barrières; elles sont l'expression même de l'élégance et de la sérénité.
         </p>
 
-        <ul class="about__list">
-          <li class="about__list-item" data-animate>
-            <div class="about__list-icon">✦</div>
-            <div class="about__list-text">
-              <h4>Reinforced Core</h4>
-              <p>Multi-lock systems and high-grade steel frames designed to withstand extreme force.</p>
+        <div class="about__carousel" data-animate>
+          <div class="about__carousel-track">
+            <div 
+              *ngFor="let slide of slides; let i = index"
+              class="about__carousel-slide"
+              [class.active]="i === activeSlideIndex"
+            >
+              <div class="about__carousel-icon">✦</div>
+              <div class="about__carousel-text">
+                <h4>{{ slide.title }}</h4>
+                <p>{{ slide.description }}</p>
+              </div>
+              
+              <!-- Progress bar at the bottom of each card -->
+              <div class="about__carousel-progress">
+                <div class="about__carousel-progress-fill"></div>
+              </div>
             </div>
-          </li>
-          <li class="about__list-item" data-animate>
-            <div class="about__list-icon">✦</div>
-            <div class="about__list-text">
-              <h4>Weather Resistant</h4>
-              <p>Premium coatings that protect against rust, UV fading, and harsh weather conditions.</p>
-            </div>
-          </li>
-          <li class="about__list-item" data-animate>
-            <div class="about__list-icon">✦</div>
-            <div class="about__list-text">
-              <h4>Bespoke Finishes</h4>
-              <p>Custom wood veneers, glass inserts, and modern architectural lines to match your home.</p>
-            </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

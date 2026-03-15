@@ -55,16 +55,25 @@ export class DoorModelService {
     ];
 
     const frontZ = panelD / 2 + 0.001;
+    const backZ = -panelD / 2 - 0.001;
+
     etchPoints.forEach(([x1, y1, x2, y2]) => {
-      const geom = new THREE.BufferGeometry().setFromPoints([
+      // Front face
+      const frontGeom = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(x1, y1, frontZ),
         new THREE.Vector3(x2, y2, frontZ),
       ]);
-      const line = new THREE.Line(geom, linesMat);
-      doorGroup.add(line);
+      doorGroup.add(new THREE.Line(frontGeom, linesMat));
+
+      // Back face (mirrored X so it maintains left/right visual orientation)
+      const backGeom = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-x1, y1, backZ),
+        new THREE.Vector3(-x2, y2, backZ),
+      ]);
+      doorGroup.add(new THREE.Line(backGeom, linesMat));
     });
 
-    // ----- Wood Veneer Strip (right side) -----
+    // ----- Wood Veneer Strip -----
     const stripW = 0.45;
     const stripH = panelH - 0.02;
     const stripD = 0.015;
@@ -74,29 +83,65 @@ export class DoorModelService {
       roughness: 0.75,
       metalness: 0.05,
     });
-    const strip = new THREE.Mesh(stripGeom, stripMat);
-    strip.position.set(panelW / 2 - stripW / 2 - 0.02, 0, panelD / 2 + stripD / 2);
-    doorGroup.add(strip);
 
-    // Wood grain lines (subtle)
+    // Front Strip
+    const frontStrip = new THREE.Mesh(stripGeom, stripMat);
+    const stripX = panelW / 2 - stripW / 2 - 0.02;
+    frontStrip.position.set(stripX, 0, panelD / 2 + stripD / 2);
+    doorGroup.add(frontStrip);
+
+    // Back Strip (mirrored X)
+    const backStrip = new THREE.Mesh(stripGeom, stripMat);
+    backStrip.position.set(-stripX, 0, -panelD / 2 - stripD / 2);
+    doorGroup.add(backStrip);
+
+    // subtle wood grain lines
     const grainMat = new THREE.LineBasicMaterial({
       color: 0x6B3A1A,
       linewidth: 1,
       transparent: true,
       opacity: 0.35,
     });
-    for (let i = 0; i < 12; i++) {
-      const xOff = strip.position.x + (Math.random() - 0.5) * stripW * 0.7;
-      const yStart = -stripH / 2 + Math.random() * 0.3;
-      const yEnd = yStart + 0.8 + Math.random() * 1.2;
-      const grainGeom = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(xOff, yStart, strip.position.z + stripD / 2 + 0.001),
-        new THREE.Vector3(xOff + (Math.random() - 0.5) * 0.02, yEnd, strip.position.z + stripD / 2 + 0.001),
-      ]);
-      doorGroup.add(new THREE.Line(grainGeom, grainMat));
-    }
+    const createGrain = (stripPos: THREE.Vector3, dir: number) => {
+      for (let i = 0; i < 12; i++) {
+        const xOff = stripPos.x + (Math.random() - 0.5) * stripW * 0.7;
+        const yStart = -stripH / 2 + Math.random() * 0.3;
+        const yEnd = yStart + 0.8 + Math.random() * 1.2;
+        const zOff = stripPos.z + (dir * stripD / 2) + (dir * 0.001);
+        const grainGeom = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(xOff, yStart, zOff),
+          new THREE.Vector3(xOff + (Math.random() - 0.5) * 0.02, yEnd, zOff),
+        ]);
+        doorGroup.add(new THREE.Line(grainGeom, grainMat));
+      }
+    };
+    createGrain(frontStrip.position, 1);
+    createGrain(backStrip.position, -1);
 
-    // ----- Vertical Black Handle -----
+    // ----- Hardware Location -----
+    const hardwareX = stripX - stripW / 2 - 0.06; // the grey panel just left of the strip
+    
+    // ----- Keyhole -----
+    // a subtle keyhole: a small cylinder replacing the bulky handle
+    const keyholeMat = new THREE.MeshStandardMaterial({
+      color: 0x111111,
+      roughness: 0.4,
+      metalness: 0.8,
+    });
+    
+    // Front Keyhole
+    const frontKeyhole = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.01, 16), keyholeMat);
+    frontKeyhole.rotation.x = Math.PI / 2;
+    frontKeyhole.position.set(hardwareX, -0.15, panelD / 2 + 0.005);
+    doorGroup.add(frontKeyhole);
+
+    // Back Keyhole
+    const backKeyhole = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.01, 16), keyholeMat);
+    backKeyhole.rotation.x = Math.PI / 2;
+    backKeyhole.position.set(-hardwareX, -0.15, -panelD / 2 - 0.005);
+    doorGroup.add(backKeyhole);
+
+    // ----- Vertical Black Handle (Front Only) -----
     const handleH = 0.65;
     const handleW = 0.025;
     const handleD = 0.03;
@@ -106,47 +151,40 @@ export class DoorModelService {
       roughness: 0.3,
       metalness: 0.9,
     });
+    
     const handle = new THREE.Mesh(handleGeom, handleMat);
-    handle.position.set(
-      strip.position.x - stripW / 2 - 0.06,
-      -0.15,
-      panelD / 2 + 0.04
-    );
+    handle.position.set(hardwareX, -0.15, panelD / 2 + 0.04);
     doorGroup.add(handle);
 
     // Handle bracket top
     const bracketGeom = new THREE.BoxGeometry(0.04, 0.04, 0.04);
     const bracketTop = new THREE.Mesh(bracketGeom, handleMat);
-    bracketTop.position.set(
-      handle.position.x,
-      handle.position.y + handleH / 2,
-      handle.position.z - 0.01
-    );
+    bracketTop.position.set(handle.position.x, handle.position.y + handleH / 2, handle.position.z - 0.01);
     doorGroup.add(bracketTop);
 
     // Handle bracket bottom
     const bracketBottom = new THREE.Mesh(bracketGeom, handleMat);
-    bracketBottom.position.set(
-      handle.position.x,
-      handle.position.y - handleH / 2,
-      handle.position.z - 0.01
-    );
+    bracketBottom.position.set(handle.position.x, handle.position.y - handleH / 2, handle.position.z - 0.01);
     doorGroup.add(bracketBottom);
 
     // ----- Peephole -----
-    const peepholeGeom = new THREE.SphereGeometry(0.02, 16, 16);
     const peepholeMat = new THREE.MeshStandardMaterial({
       color: 0x222222,
       roughness: 0.2,
       metalness: 0.95,
     });
-    const peephole = new THREE.Mesh(peepholeGeom, peepholeMat);
-    peephole.position.set(
-      handle.position.x,
-      0.55,
-      panelD / 2 + 0.02
-    );
-    doorGroup.add(peephole);
+    
+    // Front Peephole
+    const frontPeephole = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.018, 0.02, 16), peepholeMat);
+    frontPeephole.rotation.x = Math.PI / 2;
+    frontPeephole.position.set(hardwareX, 0.55, panelD / 2 + 0.01);
+    doorGroup.add(frontPeephole);
+
+    // Back Peephole
+    const backPeephole = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.018, 0.02, 16), peepholeMat);
+    backPeephole.rotation.x = Math.PI / 2;
+    backPeephole.position.set(-hardwareX, 0.55, -panelD / 2 - 0.01);
+    doorGroup.add(backPeephole);
 
     // ----- Door Frame -----
     const frameMat = new THREE.MeshStandardMaterial({

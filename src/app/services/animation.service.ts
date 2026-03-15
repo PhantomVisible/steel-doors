@@ -1,6 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
+import { ExplodedDoorParts } from './exploded-door.service';
 
 /**
  * AnimationService
@@ -70,10 +71,40 @@ export class AnimationService {
         scrub: 1.5,
         onUpdate: () => {
           doorGroup.position.y += (proxy.yOffset - doorGroup.position.y) * 0.1;
-          doorGroup.scale.setScalar(proxy.scale);
         },
       },
     });
+  }
+
+  /** Scroll-triggered: Assemble exploded door in About section */
+  setupExplodedDoorScroll(
+    parts: ExplodedDoorParts,
+    triggerElement: HTMLElement
+  ): void {
+    if (!this.gsap || !this.ScrollTrigger) return;
+
+    // We want them to gently float to z = 0 as the user scrubs through the section.
+    
+    const tl = this.gsap.timeline({
+      scrollTrigger: {
+        trigger: triggerElement,
+        start: 'top 80%', // start animating when section is 80% down viewport
+        end: 'center center', // finish assembling when section is in middle
+        scrub: 1.5, // smooth scrubbing
+      }
+    });
+
+    // Animate everything to Z = 0
+    tl.to(parts.backPanel.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.insulation.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.skeleton.position, { z: 0, ease: 'sine.inOut' }, 0);
+    tl.to(parts.frontPanel.position, { z: 0, ease: 'sine.inOut' }, 0);
+    
+    // Also gently rotate the door group back to flat/straight a bit, maybe to 15 degrees instead of 45
+    tl.to(parts.group.rotation, { y: Math.PI / 8, ease: 'sine.inOut' }, 0);
+    
+    // And float it slightly Y
+    tl.to(parts.group.position, { y: 0.2, ease: 'sine.inOut' }, 0);
   }
 
   /** Animate [data-animate] elements into view — weightless entrance */
