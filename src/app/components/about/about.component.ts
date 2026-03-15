@@ -40,6 +40,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private intersectableObjects: THREE.Object3D[] = [];
   private layerOriginalZ = new Map<THREE.Object3D, number>();
   swipedLayers = new Set<THREE.Object3D>();
+  private hoveredLayer: THREE.Object3D | null = null;
 
   slides: AboutSlide[] = [
     { 
@@ -97,8 +98,11 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private updateLabelPosition(anchor: THREE.Object3D, labelEl: HTMLElement | undefined) {
     if (!labelEl || !this.containerRef) return;
     
-    // Hide label if the parent layer has been swiped away
-    if (anchor.parent && this.swipedLayers.has(anchor.parent)) {
+    // Hide label if the parent layer has been swiped away, OR if not currently hovered/dragged
+    if (
+      (anchor.parent && this.swipedLayers.has(anchor.parent)) ||
+      (anchor.parent !== this.hoveredLayer && anchor.parent !== this.draggedLayer)
+    ) {
       labelEl.style.display = 'none';
       return;
     }
@@ -164,19 +168,24 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
       // Calculate new Z
       const newZ = this.layerStartZ + deltaX * sensitivity;
       this.draggedLayer.position.z = newZ;
+      this.hoveredLayer = null;
     } else {
       const intersects = this.getIntersects(event);
-      let hoveredValid = false;
+      let hitObject: THREE.Object3D | null = null;
       if (intersects.length > 0) {
-        let hitObject: THREE.Object3D | null = intersects[0].object;
+        hitObject = intersects[0].object;
         while (hitObject && !this.intersectableObjects.includes(hitObject)) {
           hitObject = hitObject.parent;
         }
-        if (hitObject && !this.swipedLayers.has(hitObject)) {
-          hoveredValid = true;
-        }
       }
-      document.body.style.cursor = hoveredValid ? 'grab' : 'default';
+
+      if (hitObject && !this.swipedLayers.has(hitObject)) {
+        this.hoveredLayer = hitObject;
+        document.body.style.cursor = 'grab';
+      } else {
+        this.hoveredLayer = null;
+        document.body.style.cursor = 'default';
+      }
     }
   };
 
@@ -196,6 +205,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
       }
       
       this.draggedLayer = null;
+      this.hoveredLayer = null;
       document.body.style.cursor = 'default';
       this.canvasRef.nativeElement.releasePointerCapture(event.pointerId);
     }

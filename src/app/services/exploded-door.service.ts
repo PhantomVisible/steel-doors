@@ -109,23 +109,28 @@ export class ExplodedDoorService {
     rightFrame.position.x = panelW / 2 - skelThickness / 2;
     layer3_skeleton.add(rightFrame);
 
-    // Inner crossbars (X bracing for high tech look)
+    // 3x3 Layout (2 vertical, 2 horizontal inner bars)
     const crossBarMat = skeletonMat;
-    const diag1Geom = new THREE.BoxGeometry(panelW, 0.02, skelThickness-0.01);
-    const diag1 = new THREE.Mesh(diag1Geom, crossBarMat);
-    diag1.rotation.z = Math.atan2(panelH, panelW);
-    layer3_skeleton.add(diag1);
-
-    const diag2Geom = new THREE.BoxGeometry(panelW, 0.02, skelThickness-0.01);
-    const diag2 = new THREE.Mesh(diag2Geom, crossBarMat);
-    diag2.rotation.z = -Math.atan2(panelH, panelW);
-    layer3_skeleton.add(diag2);
+    const vBarGeom = new THREE.BoxGeometry(0.04, panelH, skelThickness-0.01);
+    const hBarGeom = new THREE.BoxGeometry(panelW, 0.04, skelThickness-0.01);
     
-    // Middle vertical/horizontal reinforcements
-    const midV = new THREE.Mesh(new THREE.BoxGeometry(0.02, panelH, skelThickness-0.01), crossBarMat);
-    layer3_skeleton.add(midV);
-    const midH = new THREE.Mesh(new THREE.BoxGeometry(panelW, 0.02, skelThickness-0.01), crossBarMat);
-    layer3_skeleton.add(midH);
+    // Vertical inner bars
+    const vBar1 = new THREE.Mesh(vBarGeom, crossBarMat);
+    vBar1.position.x = -panelW / 6;
+    layer3_skeleton.add(vBar1);
+    
+    const vBar2 = new THREE.Mesh(vBarGeom, crossBarMat);
+    vBar2.position.x = panelW / 6;
+    layer3_skeleton.add(vBar2);
+
+    // Horizontal inner bars
+    const hBar1 = new THREE.Mesh(hBarGeom, crossBarMat);
+    hBar1.position.y = -panelH / 6;
+    layer3_skeleton.add(hBar1);
+
+    const hBar2 = new THREE.Mesh(hBarGeom, crossBarMat);
+    hBar2.position.y = panelH / 6;
+    layer3_skeleton.add(hBar2);
 
     const anchorSkeleton = createAnchor(0, panelH/3, 0, layer3_skeleton);
     doorGroup.add(layer3_skeleton);
@@ -138,19 +143,45 @@ export class ExplodedDoorService {
     doorGroup.add(layer4_frontFoam);
 
 
-    // ----- Layer 5: Front Wood Board (with details + handle) -----
+    // ----- Layer 5: Front Panel (Hero Style) -----
     const layer5_frontWood = new THREE.Group();
-    const frontWoodBase = new THREE.Mesh(new THREE.BoxGeometry(panelW, panelH, woodThickness), darkWoodMat);
+    
+    const heroPanelMat = new THREE.MeshStandardMaterial({
+      color: 0x5a6575,
+      roughness: 0.55,
+      metalness: 0.7,
+    });
+    const frontWoodBase = new THREE.Mesh(new THREE.BoxGeometry(panelW, panelH, woodThickness), heroPanelMat);
     layer5_frontWood.add(frontWoodBase);
     
-    // Vertical details
-    for(let i=1; i<5; i++) {
-        const lineGeo = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(-panelW/2 + (panelW/5)*i, -panelH/2 + 0.1, woodThickness/2 + 0.001),
-            new THREE.Vector3(-panelW/2 + (panelW/5)*i, panelH/2 - 0.1, woodThickness/2 + 0.001)
-        ]);
-        layer5_frontWood.add(new THREE.Line(lineGeo, lineMat));
-    }
+    // Etched Geometric Polygon Lines (from Hero model)
+    const linesMat = new THREE.LineBasicMaterial({
+      color: 0x3a4555,
+      linewidth: 1,
+    });
+    const etchPoints: [number, number, number, number][] = [
+      [-0.78, -1.38, -0.05,  0.60],
+      [-0.78,  0.40,  0.15, -1.38],
+      [-0.78, -0.50,  0.25,  1.38],
+      [-0.50,  1.38,  0.20, -0.80],
+      [-0.78,  1.00,  0.30,  0.10],
+      [-0.20, -1.38,  0.15,  1.00],
+      [-0.78, -1.00,  0.10,  0.30],
+      [-0.60,  0.80,  0.30, -1.38],
+      [-0.78,  1.38,  0.30, -0.30],
+      [-0.40, -1.38, -0.10,  1.38],
+      [ 0.00,  1.38,  0.30, -0.60],
+      [-0.78, -0.10,  0.20,  1.38],
+    ];
+
+    const frontZ = woodThickness / 2 + 0.001;
+    etchPoints.forEach(([x1, y1, x2, y2]) => {
+      const frontGeom = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(x1, y1, frontZ),
+        new THREE.Vector3(x2, y2, frontZ),
+      ]);
+      layer5_frontWood.add(new THREE.Line(frontGeom, linesMat));
+    });
     
     // Wood strip on right side
     const stripW = 0.45;
