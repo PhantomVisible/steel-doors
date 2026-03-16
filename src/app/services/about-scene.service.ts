@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 @Injectable({ providedIn: 'root' })
 export class AboutSceneService {
@@ -17,24 +16,25 @@ export class AboutSceneService {
   init(canvas: HTMLCanvasElement, container: HTMLElement): void {
     // Scene
     this.scene = new THREE.Scene();
-    // Transparent background so the section's white/blue gradient shows through
     this.scene.background = null;
 
     // Camera
-    const aspect = container.clientWidth / container.clientHeight;
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    const aspect = w / h;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
-    // Position camera to see the full door, shifted slightly right to put model on the left
-    this.camera.position.set(2.5, 0, 5);
-    this.camera.lookAt(2.5, 0, 0);
+    
+    // Responsive camera positioning
+    this.updateCameraPosition(w);
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
-      alpha: true, // Allow transparent background
+      alpha: true,
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.setSize(container.clientWidth, container.clientHeight);
+    this.renderer.setSize(w, h);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.0;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -51,13 +51,23 @@ export class AboutSceneService {
     fillLight.position.set(5, 0, 3);
     this.scene.add(fillLight);
 
-    // Handle resize
+    // Handle resize based on container
     this.resizeObserver = new ResizeObserver(() => {
       this.onResize(container);
     });
     this.resizeObserver.observe(container);
+  }
 
-    // Orbit Controls removed per user request for custom dragging
+  private updateCameraPosition(width: number): void {
+    if (width < 768) {
+      // Mobile: Center the model
+      this.camera.position.set(0, 0, 6);
+      this.camera.lookAt(0, 0, 0);
+    } else {
+      // Desktop: Shift right to make room for text on left
+      this.camera.position.set(2.5, 0, 5);
+      this.camera.lookAt(2.5, 0, 0);
+    }
   }
 
   startLoop(onFrame: (elapsed: number, delta: number) => void): void {
@@ -84,8 +94,11 @@ export class AboutSceneService {
   private onResize(container: HTMLElement): void {
     const w = container.clientWidth;
     const h = container.clientHeight;
+    
     this.camera.aspect = w / h;
+    this.updateCameraPosition(w);
     this.camera.updateProjectionMatrix();
+    
     this.renderer.setSize(w, h);
   }
 

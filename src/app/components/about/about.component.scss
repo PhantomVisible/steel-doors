@@ -6,38 +6,43 @@
 
 .about__grid {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column; // Mobile-first: stack vertically
+  gap: 2rem;
   position: relative;
-  min-height: 85vh;
-  padding: 4rem 0;
+  padding: 2rem 0;
 
-  @media (max-width: 992px) {
-    align-items: flex-end;
-    min-height: auto;
-    padding-top: 50vh;
+  @media (min-width: 768px) {
+    flex-direction: row-reverse; // Desktop: side-by-side, text on left, canvas on right
+    justify-content: space-between;
+    align-items: center;
+    min-height: 85vh;
+    padding: 4rem 0;
+    gap: 4rem;
   }
 }
 
 .about__visual {
-  position: absolute;
-  top: 0;
-  left: calc(-50vw + 50%);
-  width: 100vw;
-  height: 100%;
-  max-width: none;
-  margin: 0;
-  z-index: 0;
-  pointer-events: auto;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  order: 2; // Canvas on bottom for mobile
+
+  @media (min-width: 768px) {
+    width: 50%;
+    order: 1; // Canvas on right for desktop (row-reverse makes it right)
+  }
 }
 
 .about__canvas-container {
-  position: absolute;
-  inset: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 400px; // Fixed height for mobile
   background: transparent;
   overflow: visible;
+
+  @media (min-width: 768px) {
+    height: 600px; // Larger height for desktop
+  }
 }
 
 .about__canvas {
@@ -48,13 +53,13 @@
 
 .about__reset-btn {
   position: absolute;
-  top: 2rem;
-  left: 2rem;
+  top: 1rem;
+  left: 1rem;
   z-index: 20;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1rem;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(64,67,245,0.15);
@@ -62,13 +67,20 @@
   color: var(--blue-700);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 4px 15px rgba(14,17,23,0.05);
+
+  @media (min-width: 768px) {
+    top: 2rem;
+    left: 2rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+  }
 
   &:hover {
     background: var(--white);
@@ -111,32 +123,42 @@
 
 .about__label-line {
   height: 1px;
-  width: 35px;
+  width: 20px;
   background: var(--blue-500);
   opacity: 0.5;
-  margin: 0 8px;
+  margin: 0 6px;
+
+  @media (min-width: 768px) {
+    width: 35px;
+    margin: 0 8px;
+  }
 }
 
 .about__label-text {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 600;
   color: var(--blue-700);
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(4px);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 20px;
   border: 1px solid rgba(64,67,245,0.15);
   white-space: nowrap;
   box-shadow: 0 4px 15px rgba(14,17,23,0.05);
+
+  @media (min-width: 768px) {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
 }
 
 .about__certification-badge {
   position: absolute;
-  bottom: 10%;
-  left: 10%;
-  width: 140px;
-  height: 140px;
+  bottom: 5%;
+  left: 5%;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
@@ -144,9 +166,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Soft blue ink glow */
   box-shadow: 0 0 25px rgba(64, 67, 245, 0.3), inset 0 0 10px rgba(64, 67, 245, 0.1);
   border: 1px solid rgba(64, 67, 245, 0.2);
+
+  @media (min-width: 768px) {
+    width: 140px;
+    height: 140px;
+    bottom: 10%;
+    left: 10%;
+  }
 }
 
 .about__certification-svg {
@@ -169,19 +197,28 @@
 
 .about__certification-center {
   background: var(--blue-500);
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 15px rgba(64, 67, 245, 0.4);
+
+  @media (min-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
   
   span {
     color: var(--white);
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: 800;
+
+    @media (min-width: 768px) {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -194,22 +231,28 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 520px;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 3.5rem;
+  padding: 2rem;
   border-radius: 24px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.6);
   pointer-events: auto;
+  order: 1; // Text on top for mobile
 
-  @media (max-width: 992px) {
-    padding: 2rem;
+  @media (min-width: 768px) {
+    max-width: 520px;
+    padding: 3.5rem;
+    order: 2; // Text on left for desktop (row-reverse makes it left)
   }
 
   .section-subtitle {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    @media (min-width: 768px) {
+      margin-bottom: 3rem;
+    }
   }
 }
 
@@ -220,7 +263,10 @@
 
 .about__carousel-track {
   position: relative;
-  min-height: 220px;
+  min-height: 200px;
+  @media (min-width: 768px) {
+    min-height: 220px;
+  }
 }
 
 .about__carousel-slide {
@@ -233,12 +279,17 @@
   pointer-events: none;
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   background: var(--white);
-  padding: 2rem;
-  padding-bottom: 2.5rem; /* extra space for the bar */
+  padding: 1.5rem;
+  padding-bottom: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(14, 17, 23, 0.05);
   border: 1px solid rgba(64, 67, 245, 0.06);
-  overflow: hidden; /* prevents progress bar from spilling out of rounded corners */
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+    padding-bottom: 2.5rem;
+  }
 
   &.active {
     opacity: 1;
@@ -253,26 +304,41 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: var(--blue-100);
   color: var(--blue-500);
   border-radius: 12px;
-  font-size: 1.2rem;
-  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
 }
 
 .about__carousel-text {
   h4 {
-    font-size: 1.2rem;
-    margin-bottom: 0.6rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
     color: var(--grey-800);
+    @media (min-width: 768px) {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
   }
   p {
     color: var(--steel-grey);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
     margin: 0;
+    @media (min-width: 768px) {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
   }
 }
 
@@ -292,27 +358,10 @@
 }
 
 .about__carousel-slide.active .about__carousel-progress-fill {
-  /* 5 seconds matches the JS setInterval */
   animation: slideProgressBar 5s linear forwards;
 }
 
 @keyframes slideProgressBar {
   from { width: 0%; }
   to { width: 100%; }
-}
-
-@media (max-width: 768px) {
-  .about__certification-badge {
-    right: 0rem;
-    bottom: -20px;
-    width: 120px;
-    height: 120px;
-  }
-  .about__certification-center {
-    width: 50px;
-    height: 50px;
-    span {
-      font-size: 1.25rem;
-    }
-  }
 }

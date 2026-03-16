@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
 import { AnimationService } from '../../services/animation.service';
@@ -17,7 +17,7 @@ interface AboutSlide {
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements AfterViewInit, OnDestroy {
+export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('aboutSection', { static: false }) sectionRef!: ElementRef<HTMLElement>;
   @ViewChild('aboutCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasContainer', { static: false }) containerRef!: ElementRef<HTMLElement>;
@@ -59,7 +59,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   activeSlideIndex = 0;
   private intervalId: any;
-
   private isBrowser: boolean;
 
   constructor(
@@ -91,14 +90,13 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     this.activeSlideIndex = index;
     if (this.isBrowser && this.intervalId) {
       clearInterval(this.intervalId);
-      this.startSlider(); // Restart interval on manual interactions
+      this.startSlider();
     }
   }
 
   private updateLabelPosition(anchor: THREE.Object3D, labelEl: HTMLElement | undefined) {
     if (!labelEl || !this.containerRef) return;
     
-    // Hide label if the parent layer has been swiped away, OR if not currently hovered/dragged
     if (
       (anchor.parent && this.swipedLayers.has(anchor.parent)) ||
       (anchor.parent !== this.hoveredLayer && anchor.parent !== this.draggedLayer)
@@ -107,14 +105,10 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // Get absolute position of the anchor in the world
     const vector = new THREE.Vector3();
     anchor.getWorldPosition(vector);
-    
-    // Project to NDC space (-1 to +1)
     vector.project(this.aboutSceneService.camera);
     
-    // Convert NDC to 2D CSS coordinates relative to the canvas container
     const container = this.containerRef.nativeElement;
     const widthHalf = container.clientWidth / 2;
     const heightHalf = container.clientHeight / 2;
@@ -122,18 +116,15 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     const x = (vector.x * widthHalf) + widthHalf;
     const y = -(vector.y * heightHalf) + heightHalf;
     
-    // Prevent rendering if the object is behind the camera (z > 1)
     if (vector.z > 1) {
       labelEl.style.display = 'none';
       return;
     }
     
     labelEl.style.display = 'flex';
-    // Offset by -3px for the 6x6 anchor dot center to perfectly align
     labelEl.style.transform = `translate(${x - 3}px, ${y - 3}px)`;
   }
 
-  // ---- Interaction Events ----
   private getIntersects(event: PointerEvent): THREE.Intersection[] {
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -161,11 +152,8 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   private onPointerMove = (event: PointerEvent) => {
     if (this.draggedLayer) {
-      // User requested: "slide each part from left to right"
       const deltaX = event.clientX - this.dragStartX;
       const sensitivity = 0.005; 
-      
-      // Calculate new Z
       const newZ = this.layerStartZ + deltaX * sensitivity;
       this.draggedLayer.position.z = newZ;
       this.hoveredLayer = null;
@@ -194,13 +182,11 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
       const deltaX = event.clientX - this.dragStartX;
       const originalZ = this.layerOriginalZ.get(this.draggedLayer) || 0;
       
-      // If user swiped more than ~80 pixels, permanently swipe it away
       if (Math.abs(deltaX) > 80) {
         const dir = Math.sign(deltaX);
         this.animationService.animateSwipeAway(this.draggedLayer, originalZ, dir);
         this.swipedLayers.add(this.draggedLayer);
       } else {
-        // Did not meet threshold, spring back normally
         this.animationService.animateSpringBack(this.draggedLayer, originalZ);
       }
       
@@ -222,15 +208,12 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   async ngAfterViewInit(): Promise<void> {
     if (!this.isBrowser) return;
     
-    // Init the About-specific 3D scene
     if (this.canvasRef && this.containerRef) {
       this.aboutSceneService.init(this.canvasRef.nativeElement, this.containerRef.nativeElement);
       
-      // Create and add the exploded door
       this.explodedParts = this.explodedDoorService.createExplodedDoor();
       this.aboutSceneService.scene.add(this.explodedParts.group);
 
-      // Collect root intersectable layers
       this.intersectableObjects = [
         this.explodedParts.layer1_backWood,
         this.explodedParts.layer2_backFoam,
@@ -242,17 +225,15 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
         this.layerOriginalZ.set(layer, layer.position.z);
       });
 
-      // Bind canvas events
       const canvas = this.canvasRef.nativeElement;
       canvas.addEventListener('pointerdown', this.onPointerDown);
       canvas.addEventListener('pointermove', this.onPointerMove);
       canvas.addEventListener('pointerup', this.onPointerUp);
       canvas.addEventListener('pointerleave', this.onPointerUp);
 
-      // Start render loop (with subtle levitation on the whole group)
       this.aboutSceneService.startLoop((elapsed: number) => {
-        // Just a subtle float on the assembled group
-        this.explodedParts.group.position.y = Math.sin(elapsed * 1.2) * 0.05;
+        // Use the new levitation logic from AnimationService
+        this.animationService.applyLevitation(this.explodedParts.group, elapsed);
 
         // Sync HTML labels to 3D anchor points
         this.updateLabelPosition(this.explodedParts.anchors.frontWood, this.labelFrontWoodRef?.nativeElement);
@@ -266,7 +247,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     await this.animationService.loadGsap();
     setTimeout(() => {
       this.animationService.setupEntranceAnimations(this.sectionRef.nativeElement);
-      // Removed the automated explosion/assembly scroll trigger per user request
     }, 100);
   }
 
@@ -282,5 +262,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
     if (this.intervalId) clearInterval(this.intervalId);
     this.aboutSceneService.dispose();
+    this.animationService.dispose();
   }
 }
