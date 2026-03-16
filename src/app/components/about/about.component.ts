@@ -232,8 +232,8 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
       canvas.addEventListener('pointerleave', this.onPointerUp);
 
       this.aboutSceneService.startLoop((elapsed: number) => {
-        // Use the new levitation logic from AnimationService
-        this.animationService.applyLevitation(this.explodedParts.group, elapsed);
+        // Subtle floating levitation on the entire group (no rotation)
+        this.explodedParts.group.position.y = Math.sin(elapsed * 1.2) * 0.05;
 
         // Sync HTML labels to 3D anchor points
         this.updateLabelPosition(this.explodedParts.anchors.frontWood, this.labelFrontWoodRef?.nativeElement);

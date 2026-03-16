@@ -36,12 +36,12 @@
 .about__canvas-container {
   position: relative;
   width: 100%;
-  height: 400px; // Fixed height for mobile
+  height: 500px; // Fixed height for mobile
   background: transparent;
   overflow: visible;
 
   @media (min-width: 768px) {
-    height: 600px; // Larger height for desktop
+    height: 700px; // Larger height for desktop
   }
 }
 

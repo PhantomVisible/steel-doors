@@ -24,32 +24,7 @@ export class AnimationService {
     this.mm = this.gsap.matchMedia();
   }
 
-  /** Apply sine-wave levitation with mobile optimization */
-  applyLevitation(object: THREE.Object3D, elapsed: number): void {
-    const isMobile = window.innerWidth < 768;
-    const floatDistance = isMobile ? 0.05 : 0.15; // Reduced for mobile
-    const driftDistance = isMobile ? 0.02 : 0.04;
-
-    // Primary Y float
-    object.position.y = Math.sin(elapsed * 0.8) * floatDistance;
-    
-    if (!isMobile) {
-      // Desktop: Push the door to the right
-      object.position.x = 1.2 + Math.sin(elapsed * 0.3) * 0.05;
-    } else {
-      // Mobile: Keep centered
-      object.position.x = Math.sin(elapsed * 0.3) * 0.02;
-    }
-    
-    // Subtle Z drift
-    object.position.z = Math.cos(elapsed * 0.4) * driftDistance;
-    
-    // Continuous rotation
-    object.rotation.y = elapsed * 0.4;
-    object.rotation.x = Math.cos(elapsed * 0.25) * 0.05;
-  }
-
-  /** Entrance animations with matchMedia */
+  /** Entrance animations with matchMedia for mobile optimization */
   setupEntranceAnimations(container: HTMLElement): void {
     if (!this.gsap || !this.ScrollTrigger || !this.mm) return;
 

@@ -18,14 +18,15 @@ export class AboutSceneService {
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
-    // Camera
+    // Camera - sized to the container
     const w = container.clientWidth;
     const h = container.clientHeight;
     const aspect = w / h;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
     
-    // Responsive camera positioning
-    this.updateCameraPosition(w);
+    // Position camera to see the full exploded door with proper perspective
+    this.camera.position.set(2.5, 0, 5);
+    this.camera.lookAt(2.5, 0, 0);
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -51,23 +52,11 @@ export class AboutSceneService {
     fillLight.position.set(5, 0, 3);
     this.scene.add(fillLight);
 
-    // Handle resize based on container
+    // Handle resize based on container dimensions
     this.resizeObserver = new ResizeObserver(() => {
       this.onResize(container);
     });
     this.resizeObserver.observe(container);
-  }
-
-  private updateCameraPosition(width: number): void {
-    if (width < 768) {
-      // Mobile: Center the model
-      this.camera.position.set(0, 0, 6);
-      this.camera.lookAt(0, 0, 0);
-    } else {
-      // Desktop: Shift right to make room for text on left
-      this.camera.position.set(2.5, 0, 5);
-      this.camera.lookAt(2.5, 0, 0);
-    }
   }
 
   startLoop(onFrame: (elapsed: number, delta: number) => void): void {
@@ -96,9 +85,7 @@ export class AboutSceneService {
     const h = container.clientHeight;
     
     this.camera.aspect = w / h;
-    this.updateCameraPosition(w);
     this.camera.updateProjectionMatrix();
-    
     this.renderer.setSize(w, h);
   }
 
