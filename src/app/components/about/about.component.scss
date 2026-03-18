@@ -204,6 +204,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 15px rgba(64, 67, 245, 0.4);
+  
 
   @media (min-width: 768px) {
     width: 60px;
@@ -217,7 +218,7 @@
     font-weight: 800;
 
     @media (min-width: 768px) {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 }
