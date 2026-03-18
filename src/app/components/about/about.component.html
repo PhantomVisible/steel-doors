@@ -2,36 +2,7 @@
   <div class="container">
     <div class="about__grid">
       
-      <!-- Left side (Desktop) / Top side (Mobile): Text Content -->
-      <div class="about__content">
-        <h2 class="section-title" data-animate>Sécurité sans compromis. Design d'exception.</h2>
-        <p class="section-subtitle" data-animate>
-          Chez <strong>Kamal Steel Doors</strong> À Fès, nous allions l'ingénierie de sécurité de pointe au savoir-faire artisanal Turc. Nos portes ne sont pas de simples barrières; elles sont l'expression même de l'élégance et de la sérénité.
-        </p>
-
-        <div class="about__carousel" data-animate>
-          <div class="about__carousel-track">
-            <div 
-              *ngFor="let slide of slides; let i = index"
-              class="about__carousel-slide"
-              [class.active]="i === activeSlideIndex"
-            >
-              <div class="about__carousel-icon">✦</div>
-              <div class="about__carousel-text">
-                <h4>{{ slide.title }}</h4>
-                <p>{{ slide.description }}</p>
-              </div>
-              
-              <!-- Progress bar at the bottom of each card -->
-              <div class="about__carousel-progress">
-                <div class="about__carousel-progress-fill"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right side (Desktop) / Bottom side (Mobile): 3D Visual -->
+      <!-- Left side (Desktop) / Top side (Mobile): 3D Visual -->
       <div class="about__visual" data-animate>
         
         <!-- The interactive 3D Exploded Door Canvas -->
@@ -88,6 +59,35 @@
           </svg>
           <div class="about__certification-center">
             <span>8+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side (Desktop) / Bottom side (Mobile): Text Content -->
+      <div class="about__content">
+        <h2 class="section-title" data-animate>Sécurité sans compromis. Design d'exception.</h2>
+        <p class="section-subtitle" data-animate>
+          Chez <strong>Kamal Steel Doors</strong> À Fès, nous allions l'ingénierie de sécurité de pointe au savoir-faire artisanal Turc. Nos portes ne sont pas de simples barrières; elles sont l'expression même de l'élégance et de la sérénité.
+        </p>
+
+        <div class="about__carousel" data-animate>
+          <div class="about__carousel-track">
+            <div 
+              *ngFor="let slide of slides; let i = index"
+              class="about__carousel-slide"
+              [class.active]="i === activeSlideIndex"
+            >
+              <div class="about__carousel-icon">✦</div>
+              <div class="about__carousel-text">
+                <h4>{{ slide.title }}</h4>
+                <p>{{ slide.description }}</p>
+              </div>
+              
+              <!-- Progress bar at the bottom of each card -->
+              <div class="about__carousel-progress">
+                <div class="about__carousel-progress-fill"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

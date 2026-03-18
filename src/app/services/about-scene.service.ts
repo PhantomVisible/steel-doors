@@ -24,9 +24,9 @@ export class AboutSceneService {
     const aspect = w / h;
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
     
-    // Position camera to see the full exploded door with proper perspective
-    this.camera.position.set(2.5, 0, 5);
-    this.camera.lookAt(2.5, 0, 0);
+    // Position camera to center and view the exploded door properly
+    this.camera.position.set(0, 0, 5);
+    this.camera.lookAt(0, 0, 0);
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({

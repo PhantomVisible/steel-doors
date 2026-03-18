@@ -12,7 +12,7 @@
   padding: 2rem 0;
 
   @media (min-width: 768px) {
-    flex-direction: row-reverse; // Desktop: side-by-side, text on left, canvas on right
+    flex-direction: row; // Desktop: side-by-side, model on left, text on right
     justify-content: space-between;
     align-items: center;
     min-height: 85vh;
@@ -29,7 +29,7 @@
 
   @media (min-width: 768px) {
     width: 50%;
-    order: 1; // Canvas on right for desktop (row-reverse makes it right)
+    order: 1; // Model on left for desktop
   }
 }
 
@@ -245,7 +245,7 @@
   @media (min-width: 768px) {
     max-width: 520px;
     padding: 3.5rem;
-    order: 2; // Text on left for desktop (row-reverse makes it left)
+    order: 2; // Text on right for desktop
   }
 
   .section-subtitle {

@@ -82,6 +82,7 @@ export class AnimationService {
       const { isMobile } = context.conditions;
       const yOffset = isMobile ? 30 : 60; // Reduced Y jump for mobile
 
+      // Scroll-triggered animations for [data-animate] elements
       const elements = container.querySelectorAll('[data-animate]');
       elements.forEach((el, i) => {
         this.gsap.fromTo(
@@ -104,6 +105,26 @@ export class AnimationService {
           }
         );
       });
+
+      // Immediate animations for [data-animate-hero] elements on load
+      const heroElements = container.querySelectorAll('[data-animate-hero]');
+      if (heroElements.length) {
+        this.gsap.fromTo(
+          heroElements,
+          {
+            opacity: 0,
+            y: yOffset,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            stagger: 0.1,
+            ease: 'sine.inOut',
+            delay: 0.2 // slight delay to ensure render
+          }
+        );
+      }
 
       return () => {
         // Cleanup if needed
