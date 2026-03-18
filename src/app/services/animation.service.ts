@@ -24,6 +24,53 @@ export class AnimationService {
     this.mm = this.gsap.matchMedia();
   }
 
+  // ============================
+  // ZERO-GRAVITY LEVITATION (for Hero door)
+  // ============================
+
+  /** Apply sine-wave levitation to the Hero door model */
+  applyLevitation(object: THREE.Object3D, elapsed: number): void {
+    // Primary Y float
+    object.position.y = Math.sin(elapsed * 0.8) * 0.15;
+    // Push the door to the right to make room for the text on the left
+    object.position.x = 1.2 + Math.sin(elapsed * 0.3) * 0.05;
+    // Subtle Z drift
+    object.position.z = Math.cos(elapsed * 0.4) * 0.04;
+    
+    // Continuous 360-degree rotation on Y (with a subtle wobble on X)
+    object.rotation.y = elapsed * 0.4;
+    object.rotation.x = Math.cos(elapsed * 0.25) * 0.05;
+  }
+
+  // ============================
+  // SCROLL-DRIVEN ANIMATIONS
+  // ============================
+
+  /** Scroll-triggered: float the Hero door upward + scale */
+  setupDoorScroll(
+    doorGroup: THREE.Object3D,
+    triggerElement: HTMLElement
+  ): void {
+    if (!this.gsap || !this.ScrollTrigger) return;
+
+    const proxy = { yOffset: 0, scale: 0.85 };
+
+    this.gsap.to(proxy, {
+      yOffset: 1.5,
+      scale: 1.0,
+      ease: 'sine.inOut',
+      scrollTrigger: {
+        trigger: triggerElement,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5,
+        onUpdate: () => {
+          doorGroup.position.y += (proxy.yOffset - doorGroup.position.y) * 0.1;
+        },
+      },
+    });
+  }
+
   /** Entrance animations with matchMedia for mobile optimization */
   setupEntranceAnimations(container: HTMLElement): void {
     if (!this.gsap || !this.ScrollTrigger || !this.mm) return;
@@ -61,6 +108,58 @@ export class AnimationService {
       return () => {
         // Cleanup if needed
       };
+    });
+  }
+
+  /** Parallax float for installation grid cards */
+  setupParallax(container: HTMLElement): void {
+    if (!this.gsap || !this.ScrollTrigger) return;
+
+    const cards = container.querySelectorAll('[data-depth]');
+    cards.forEach((card) => {
+      const depth = parseFloat((card as HTMLElement).dataset['depth'] || '1');
+      const yMove = depth * 40;
+
+      this.gsap.fromTo(
+        card,
+        { y: yMove },
+        {
+          y: -yMove,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    });
+  }
+
+  /** Lightbox open animation */
+  openLightbox(overlay: HTMLElement, image: HTMLElement): void {
+    if (!this.gsap) return;
+    this.gsap.fromTo(
+      overlay,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.4, ease: 'power2.out' }
+    );
+    this.gsap.fromTo(
+      image,
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' }
+    );
+  }
+
+  /** Lightbox close animation */
+  closeLightbox(overlay: HTMLElement, onComplete: () => void): void {
+    if (!this.gsap) return;
+    this.gsap.to(overlay, {
+      opacity: 0,
+      duration: 0.35,
+      ease: 'power2.in',
+      onComplete,
     });
   }
 
