@@ -106,7 +106,8 @@ export class AnimationService {
             ease: 'sine.inOut',
             scrollTrigger: {
               trigger: el,
-              start: 'top 90%',
+              start: isMobile ? 'top 95%' : 'top 90%',
+              invalidateOnRefresh: true,
               toggleActions: 'play none none none',
             },
           }
