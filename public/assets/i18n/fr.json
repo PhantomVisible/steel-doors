@@ -1,0 +1,64 @@
+{
+  "NAVBAR": {
+    "INSTALLATIONS": "Installations",
+    "ABOUT": "À propos",
+    "SHOWROOM": "Showroom",
+    "CONTACT": "Contact"
+  },
+  "HERO": {
+    "BADGE": "Sécurité Premium",
+    "TITLE": "Kamal",
+    "TITLE_ACCENT": "Steel Doors",
+    "TAGLINE": "Fabriqué avec précision en Turquie, où l'artisanat intemporel rencontre une sécurité sans compromis.",
+    "DESCRIPTION": "Alliant le savoir-faire traditionnel turc à une ingénierie de pointe, Kamal Steel Doors protège les habitations et sublime l'esthétique architecturale depuis près de dix ans. Découvrez un design aérien et une sécurité à toute épreuve.",
+    "BTN_PRIMARY": "Voir notre travail",
+    "BTN_SECONDARY": "Contactez-nous",
+    "SCROLL": "Scrollez pour explorer"
+  },
+  "INSTALLATIONS": {
+    "TITLE": "Nos installations",
+    "SUBTITLE": "Chaque porte raconte une histoire de précision, de sécurité et de design intemporel."
+  },
+  "ABOUT": {
+    "TITLE": "Sécurité sans compromis. Design d'exception.",
+    "SUBTITLE": "Chez <strong>Kamal Steel Doors</strong> À Fès, nous allions l'ingénierie de sécurité de pointe au savoir-faire artisanal Turc. Nos portes ne sont pas de simples barrières; elles sont l'expression même de l'élégance et de la sérénité.",
+    "REASSEMBLE": "Réassembler",
+    "LABEL1": "Panneau bois (5mm)",
+    "LABEL2": "Mousse isolante hd",
+    "LABEL3": "Squelette acier (1.5mm)",
+    "LABEL4": "Mousse thermique",
+    "LABEL5": "Panneau intérieur",
+    "BADGE_TEXT": "KAMAL STEEL DOORS • 8+ YEARS OF EXCELLENCE •",
+    "SLIDE1_TITLE": "Installation partout au Maroc",
+    "SLIDE1_DESC": "Nous assurons l'installation professionnelle de votre porte n'importe où au Maroc, en vous garantissant un service fiable et le prix juste.",
+    "SLIDE2_TITLE": "Sécurité et Blindage",
+    "SLIDE2_DESC": "Dotées d'un squelette interne en acier de 1,5 à 2 mm d'épaisseur et d'un système de verrouillage multipoints à 4 zones pour une protection absolue contre les effractions.",
+    "SLIDE3_TITLE": "Finitions Durables et Étanchéité",
+    "SLIDE3_DESC": "Des revêtements effet bois naturel ou stratifié résistants à l'humidité, accompagnés d'un double joint d'étanchéité pour une isolation parfaite face aux intempéries."
+  },
+  "LOCATION": {
+    "TITLE": "Visitez notre Showroom",
+    "SUBTITLE": "Découvrez par vous-même la qualité et le savoir-faire de Kamal Steel Doors.",
+    "STORE1_LABEL": "Magasin 1",
+    "CITY": "Fès, Maroc",
+    "STORE1_ADDR": "Grand boulevard zouagha, Route Ben Souda، Fès 30050",
+    "DIR_TITLE": "Obtenir les directions",
+    "STORE2_LABEL": "Magasin 2",
+    "STORE2_ADDR": "22 lot nassim, Ain chkf, Fès 30050",
+    "PHONE_TITLE": "Appelez-nous",
+    "PHONE_DESC": "Consultation d'experts disponible du lundi au samedi et pour en prendre rendez-vous",
+    "WHATSAPP_TITLE": "WhatsApp",
+    "WHATSAPP_DESC": "Envoyez-nous vos besoins spécifiques pour obtenir un devis rapide et pour en savoir plus sur nos portes disponibles à la vente",
+    "MSG": "Messagez-nous"
+  },
+  "CONTACT": {
+    "TITLE": "Prêt à sécuriser votre domicile ? Voici la marche à suivre :",
+    "CARD1_TITLE": "1. Mesurez votre cadre",
+    "CARD1_DESC": "Prenez les dimensions exactes (hauteur et largeur) de votre ouverture.",
+    "CARD2_TITLE": "2. Prenez une photo",
+    "CARD2_DESC": "Photographiez votre porte actuelle de l'intérieur et de l'extérieur.",
+    "CARD3_TITLE": "3. Envoyez-nous un message",
+    "CARD3_DESC": "Transmettez-nous ces éléments pour un devis instantané et précis.",
+    "BTN": "Contacter sur WhatsApp"
+  }
+}

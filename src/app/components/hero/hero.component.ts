@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ThreeSceneService } from '../../services/three-scene.service';
 import { DoorModelService } from '../../services/door-model.service';
 import { AnimationService } from '../../services/animation.service';
@@ -17,7 +18,7 @@ import * as THREE from 'three';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.scss'],
 })

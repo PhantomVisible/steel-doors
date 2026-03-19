@@ -15,7 +15,7 @@
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
             </svg>
-            Réassembler
+            {{ 'ABOUT.REASSEMBLE' | translate }}
           </button>
 
           <!-- 2D Floating Labels synched to 3D positions -->
@@ -23,27 +23,27 @@
             <div #labelFrontWood class="about__label">
               <span class="about__label-dot"></span>
               <span class="about__label-line"></span>
-              <span class="about__label-text">Panneau bois (5mm)</span>
+              <span class="about__label-text">{{ 'ABOUT.LABEL1' | translate }}</span>
             </div>
             <div #labelFrontFoam class="about__label">
               <span class="about__label-dot"></span>
               <span class="about__label-line"></span>
-              <span class="about__label-text">Mousse isolante hd</span>
+              <span class="about__label-text">{{ 'ABOUT.LABEL2' | translate }}</span>
             </div>
             <div #labelSkeleton class="about__label">
               <span class="about__label-dot"></span>
               <span class="about__label-line"></span>
-              <span class="about__label-text">Squelette acier (1.5mm)</span>
+              <span class="about__label-text">{{ 'ABOUT.LABEL3' | translate }}</span>
             </div>
             <div #labelBackFoam class="about__label">
               <span class="about__label-dot"></span>
               <span class="about__label-line"></span>
-              <span class="about__label-text">Mousse thermique</span>
+              <span class="about__label-text">{{ 'ABOUT.LABEL4' | translate }}</span>
             </div>
             <div #labelBackWood class="about__label">
               <span class="about__label-dot"></span>
               <span class="about__label-line"></span>
-              <span class="about__label-text">Panneau intérieur</span>
+              <span class="about__label-text">{{ 'ABOUT.LABEL5' | translate }}</span>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@
             <path id="circle-path" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent" />
             <text class="about__certification-text">
               <textPath href="#circle-path" startOffset="0%">
-                KAMAL STEEL DOORS • 8+ YEARS OF EXCELLENCE •
+                {{ 'ABOUT.BADGE_TEXT' | translate }}
               </textPath>
             </text>
           </svg>
@@ -65,10 +65,8 @@
 
       <!-- Right side (Desktop) / Bottom side (Mobile): Text Content -->
       <div class="about__content">
-        <h2 class="section-title" data-animate>Sécurité sans compromis. Design d'exception.</h2>
-        <p class="section-subtitle" data-animate>
-          Chez <strong>Kamal Steel Doors</strong> À Fès, nous allions l'ingénierie de sécurité de pointe au savoir-faire artisanal Turc. Nos portes ne sont pas de simples barrières; elles sont l'expression même de l'élégance et de la sérénité.
-        </p>
+        <h2 class="section-title" data-animate>{{ 'ABOUT.TITLE' | translate }}</h2>
+        <p class="section-subtitle" data-animate [innerHTML]="'ABOUT.SUBTITLE' | translate"></p>
 
         <div class="about__carousel" data-animate>
           <div class="about__carousel-track">
@@ -79,8 +77,8 @@
             >
               <div class="about__carousel-icon">✦</div>
               <div class="about__carousel-text">
-                <h4>{{ slide.title }}</h4>
-                <p>{{ slide.description }}</p>
+                <h4>{{ slide.title | translate }}</h4>
+                <p>{{ slide.description | translate }}</p>
               </div>
               
               <!-- Progress bar at the bottom of each card -->

@@ -2,7 +2,7 @@
   <div class="measurement__container container" #container>
     <div class="measurement__header">
       <h2 class="measurement__title" data-animate>
-        Prêt à sécuriser votre domicile ? Voici la marche à suivre :
+        {{ 'CONTACT.TITLE' | translate }}
       </h2>
     </div>
 
@@ -20,8 +20,8 @@
             <path d="m6 14-2 2"></path>
           </svg>
         </div>
-        <h3 class="measurement__card-title">1. Mesurez votre cadre</h3>
-        <p class="measurement__card-text">Prenez les dimensions exactes (hauteur et largeur) de votre ouverture.</p>
+        <h3 class="measurement__card-title">{{ 'CONTACT.CARD1_TITLE' | translate }}</h3>
+        <p class="measurement__card-text">{{ 'CONTACT.CARD1_DESC' | translate }}</p>
       </div>
 
       <!-- Card 2 -->
@@ -34,8 +34,8 @@
             <circle cx="12" cy="13" r="3"></circle>
           </svg>
         </div>
-        <h3 class="measurement__card-title">2. Prenez une photo</h3>
-        <p class="measurement__card-text">Photographiez votre porte actuelle de l'intérieur et de l'extérieur.</p>
+        <h3 class="measurement__card-title">{{ 'CONTACT.CARD2_TITLE' | translate }}</h3>
+        <p class="measurement__card-text">{{ 'CONTACT.CARD2_DESC' | translate }}</p>
       </div>
 
       <!-- Card 3 -->
@@ -49,8 +49,8 @@
             </path>
           </svg>
         </div>
-        <h3 class="measurement__card-title">3. Envoyez-nous un message</h3>
-        <p class="measurement__card-text">Transmettez-nous ces éléments pour un devis instantané et précis.</p>
+        <h3 class="measurement__card-title">{{ 'CONTACT.CARD3_TITLE' | translate }}</h3>
+        <p class="measurement__card-text">{{ 'CONTACT.CARD3_DESC' | translate }}</p>
       </div>
     </div>
 
@@ -62,7 +62,7 @@
             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
           </path>
         </svg>
-        Contacter sur WhatsApp
+        {{ 'CONTACT.BTN' | translate }}
       </a>
     </div>
   </div>

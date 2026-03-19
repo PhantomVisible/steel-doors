@@ -6,16 +6,22 @@
       <span>Kamal Steel Doors</span>
     </div>
 
-    <div class="nav__flags">
-      <img src="assets/icon/morocco.png" alt="Morocco" class="nav__flag">
-      <img src="assets/icon/turkey.png" alt="Turkey" class="nav__flag">
+    <div class="nav__flags" style="display: flex; gap: 1rem; align-items: center;">
+      <button class="nav__lang-btn" (click)="toggleLanguage()" 
+        style="background: transparent; border: 1px solid var(--blue-500); color: var(--blue-700); padding: 4px 12px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+        {{ currentLang === 'fr' ? 'العربية' : 'Français' }}
+      </button>
+      <div style="display: flex; display: row; gap: 0.5rem">
+        <img src="assets/icon/morocco.png" alt="Morocco" class="nav__flag">
+        <img src="assets/icon/turkey.png" alt="Turkey" class="nav__flag">
+      </div>
     </div>
 
     <div class="nav__links">
-      <a href="#installations">Installations</a>
-      <a href="#about">À propos</a>
-      <a href="#location">Showroom</a>
-      <a href="#contact" class="nav__btn">Contact</a>
+      <a href="#installations">{{ 'NAVBAR.INSTALLATIONS' | translate }}</a>
+      <a href="#about">{{ 'NAVBAR.ABOUT' | translate }}</a>
+      <a href="#location">{{ 'NAVBAR.SHOWROOM' | translate }}</a>
+      <a href="#contact" class="nav__btn">{{ 'NAVBAR.CONTACT' | translate }}</a>
     </div>
   </div>
 </header>

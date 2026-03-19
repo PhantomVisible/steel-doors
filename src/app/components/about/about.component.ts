@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import * as THREE from 'three';
 import { AnimationService } from '../../services/animation.service';
 import { AboutSceneService } from '../../services/about-scene.service';
@@ -13,7 +14,7 @@ interface AboutSlide {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
@@ -44,16 +45,16 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   slides: AboutSlide[] = [
     { 
-      title: 'Installation partout au Maroc', 
-      description: "Nous assurons l'installation professionnelle de votre porte n'importe où au Maroc, en vous garantissant un service fiable et le prix juste." 
+      title: 'ABOUT.SLIDE1_TITLE', 
+      description: 'ABOUT.SLIDE1_DESC' 
     },
     { 
-      title: 'Sécurité et Blindage', 
-      description: "Dotées d'un squelette interne en acier de 1,5 à 2 mm d'épaisseur et d'un système de verrouillage multipoints à 4 zones pour une protection absolue contre les effractions." 
+      title: 'ABOUT.SLIDE2_TITLE', 
+      description: 'ABOUT.SLIDE2_DESC' 
     },
     { 
-      title: 'Finitions Durables et Étanchéité', 
-      description: "Des revêtements effet bois naturel ou stratifié résistants à l'humidité, accompagnés d'un double joint d'étanchéité pour une isolation parfaite face aux intempéries." 
+      title: 'ABOUT.SLIDE3_TITLE', 
+      description: 'ABOUT.SLIDE3_DESC' 
     }
   ];
 

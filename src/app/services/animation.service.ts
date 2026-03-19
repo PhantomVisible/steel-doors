@@ -35,7 +35,10 @@ export class AnimationService {
     
     // Center the door on mobile (0), push to the right for desktop text overlay (1.2)
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const baseOffsetX = isMobile ? 0 : 1.2;
+    const isRtl = typeof document !== 'undefined' && document.documentElement.dir === 'rtl';
+    const directionMultiplier = isRtl ? -1 : 1;
+    const baseOffsetX = isMobile ? 0 : (1.2 * directionMultiplier);
+    
     object.position.x = baseOffsetX + Math.sin(elapsed * 0.3) * 0.05;
     
     // Subtle Z drift

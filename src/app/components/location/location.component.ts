@@ -1,11 +1,12 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
 
 @Component({
   selector: 'app-location',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss']
 })

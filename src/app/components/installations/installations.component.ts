@@ -8,6 +8,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
 
 export interface Category {
@@ -21,7 +22,7 @@ export interface Category {
 @Component({
   selector: 'app-installations',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './installations.component.html',
   styleUrls: ['./installations.component.scss'],
 })
