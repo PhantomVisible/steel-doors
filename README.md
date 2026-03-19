@@ -1,59 +1,79 @@
-# SteelDoorsApp
+# Kamal Steel Doors (KSD) 🚪✨
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.22.
+> Welcome to the official repository for the **Kamal Steel Doors** web platform. Designed to reflect the premium quality of Turkish steel doors, strong home security, and architectural elegance, based in Fès, Morocco.
 
-## Development server
+![Kamal Steel Doors](https://steel-doors.vercel.app/assets/ksd.jpeg)
 
-To start a local development server, run:
+## 🌟 Overview
 
+The KSD Web Platform is a highly immersive, modern, and performant Angular application. It showcases high-end security doors through rich interactive 3D elements and buttery-smooth scrolling animations while retaining critical accessibility, multi-language support, and SEO optimization.
+
+## 🚀 Key Features
+
+- **Interactive 3D Visuals:** A stunning 3D "Exploded Door" canvas built with modern WebGL tools to let users interact with the core structure and materials of the doors.
+- **Cinematic Animations:** Powered by **GSAP (ScrollTrigger)** to ensure fluid, scroll-driven entrance animations, levitation effects, and parallax backgrounds across all pages.
+- **Premium Aesthetics:** Sleek, high-contrast, modern UI crafted natively with **SCSS**.
+- **Multilingual Support (i18n):** Full localization support for both **French** and **Arabic** (including RTL layout handling).
+- **Responsive & Mobile-First:** Seamlessly adapts from desktop to mobile interfaces, with specifically tailored mobile rendering pipelines.
+- **Production-Ready SEO & Social Shares:** Optimized metadata, Open Graph (OG) tags, and Twitter Cards to ensure brilliant previews on WhatsApp, Facebook, LinkedIn, and Twitter.
+
+## 🛠️ Technology Stack
+
+- **Framework:** [Angular (16+)](https://angular.io/)
+- **Animations:** [GSAP](https://gsap.com/) & ScrollTrigger
+- **3D Rendering:** [Three.js](https://threejs.org/)
+- **Styling:** SCSS (Vanilla CSS architectures, Flexbox/Grid)
+- **Deployment:** [Vercel](https://vercel.com/) ready
+
+## 📦 Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed on your local machine:
+- **Node.js** (v18.x or later recommended)
+- **Angular CLI** (`npm install -g @angular/cli`)
+
+### Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/PhantomVisible/steel-doors.git
+   cd steel-doors
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the local development server:**
+   ```bash
+   ng serve
+   ```
+   Navigate to `http://localhost:4200/` in your browser. The app will automatically reload if you change any of the source files.
+
+## 🏗️ Build & Deployment
+
+### Production Build
+
+To build the project for production, run:
 ```bash
-ng serve
+ng build --configuration production
 ```
+The build artifacts will be stored in the `dist/` and/or `public/` directories, completely optimized for performance and ready for deployment.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Vercel Deployment
 
-## Code scaffolding
+This project is pre-configured and fully compatible with **Vercel**.
+1. Connect this GitHub repository to your Vercel account.
+2. Vercel will automatically detect the Angular framework structure and build the application without needing manual configurations.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📂 Project Highlights
 
-```bash
-ng generate component component-name
-```
+* **Animation Service (`animation.service.ts`):** Centralizes all GSAP ScrollTrigger functionality, dynamic media queries, and 3D levitation logic.
+* **About Component (`about.component.ts`):** Hosts the interactive canvas and parallax-driven cards highlighting core features.
+* **Contact Component (`contact.component.ts`):** Streamlined action point equipped with a direct WhatsApp integration to facilitate rapid conversions.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+*Crafted for premium security and sophisticated design.* 🛡️
