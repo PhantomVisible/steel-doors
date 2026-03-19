@@ -32,8 +32,12 @@ export class AnimationService {
   applyLevitation(object: THREE.Object3D, elapsed: number): void {
     // Primary Y float
     object.position.y = Math.sin(elapsed * 0.8) * 0.15;
-    // Push the door to the right to make room for the text on the left
-    object.position.x = 1.2 + Math.sin(elapsed * 0.3) * 0.05;
+    
+    // Center the door on mobile (0), push to the right for desktop text overlay (1.2)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const baseOffsetX = isMobile ? 0 : 1.2;
+    object.position.x = baseOffsetX + Math.sin(elapsed * 0.3) * 0.05;
+    
     // Subtle Z drift
     object.position.z = Math.cos(elapsed * 0.4) * 0.04;
     

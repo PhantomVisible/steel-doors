@@ -61,7 +61,7 @@ export class ThreeSceneService {
 
     // Handle resize
     this.resizeObserver = new ResizeObserver(() => {
-      this.onResize(container);
+      this.onResize(canvas);
     });
     this.resizeObserver.observe(container);
   }
@@ -144,12 +144,13 @@ export class ThreeSceneService {
   }
 
   /** Handle container resize */
-  private onResize(container: HTMLElement): void {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
+  private onResize(canvas: HTMLCanvasElement): void {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (w === 0 || h === 0) return;
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(w, h);
+    this.renderer.setSize(w, h, false);
   }
 
   /** Clean up all resources */
