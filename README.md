@@ -2,7 +2,7 @@
 
 > Welcome to the official repository for the **Kamal Steel Doors** web platform. Designed to reflect the premium quality of Turkish steel doors, strong home security, and architectural elegance, based in Fès, Morocco.
 
-![Kamal Steel Doors](https://steel-doors.vercel.app/assets/ksd.jpeg)
+![Kamal Steel Doors](https://kamalsteeldoors.com/assets/ksd.jpeg)
 
 ## 🌟 Overview
 
